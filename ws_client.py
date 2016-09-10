@@ -1,3 +1,4 @@
+#!/usr/bin/python
 from ws4py.client.tornadoclient import TornadoWebSocketClient
 from tornado import ioloop
 import json
@@ -24,7 +25,8 @@ class WSClient(TornadoWebSocketClient):
     def closed(self, code, reason=None):
         ioloop.IOLoop.instance().stop()
 
-ws = WSClient('ws://node6.getcloudbrain.com:31415/rt-stream/websocket', protocols=['http-only', 'chat', 'websocket'])
+WS_SERVER='ws://node6.getcloudbrain.com:31415/rt-stream/websocket'
+ws = WSClient(WS_SERVER, protocols=['http-only', 'chat', 'websocket'])
 ws.connect()
 
 ioloop.IOLoop.instance().start()
