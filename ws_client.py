@@ -10,7 +10,7 @@ def subscribe():
     msg = {'type': 'subscription'}
     msg['deviceName'] = 'openbci'
     msg['deviceId'] = 'octopicorn'
-    msg['metric'] = 'heart_rate'
+    msg['metric'] = 'bpm'
     json_msg = json.dumps(msg)
     return json_msg
 
@@ -18,7 +18,7 @@ def convert_msg_to_dict(m):
     global heart_rate
     msg = m.data.decode("utf-8")
     msg_dict = ast.literal_eval(msg)
-    heart_rate = msg_dict["channel_5"]
+    heart_rate = msg_dict["channel_0"]
     return msg_dict
 
 def getHeartRate():
