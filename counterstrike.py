@@ -22,6 +22,7 @@ import sys
 import time
 import math
 import random as rand
+import ws_client
 
 # Import Minecraft libraries
 import mcpi.minecraft as minecraft
@@ -107,6 +108,8 @@ devices = []
 for i in range(0,num_devices):
   devices.append(plant_device())
 
+print "Connecting to Cloudbrain"
+ws_client.start()
 message(str(num_devices) + "\nBombs activated ...")
 
 while num_devices>0 and game_on:
@@ -126,8 +129,15 @@ while num_devices>0 and game_on:
   num_devices=len(devices)
   # Distance to nearest device
   distance = nearest_device()
+  # Set HeartRate Effect
+  if heart_rate > 120:
+      heart_rate_effect = 2*1.5
+  elif heart_rate > 80:
+      heart_rate_effect = 2*1
+  else:
+      heart_rate_effect = 2*.5
   # Update device timers
-  min_time=count_down(2)
+  min_time=count_down(heart_rate_effect)
 
   # Issue status if game is still active
   if num_devices>0 and min_time>0:

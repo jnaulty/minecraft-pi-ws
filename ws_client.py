@@ -4,6 +4,8 @@ from tornado import ioloop
 import json
 import ast
 
+heart_rate = 0
+
 def subscribe():
     msg = {'type': 'subscription'}
     msg['deviceName'] = 'openbci'
@@ -13,8 +15,10 @@ def subscribe():
     return json_msg
 
 def convert_msg_to_dict(m):
+    global heart_rate
     msg = m.data.decode("utf-8")
     msg_dict = ast.literal_eval(msg)
+    heart_rate = msg_dict["bpm"]
     return msg_dict
 
 class WSClient(TornadoWebSocketClient):
