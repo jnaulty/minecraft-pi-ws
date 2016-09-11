@@ -4,7 +4,7 @@ from tornado import ioloop
 import json
 import ast
 
-def gen_msg():
+def subscribe():
     msg = {'type': 'subscription'}
     msg['deviceName'] = 'openbci'
     msg['deviceId'] = 'octopicorn'
@@ -19,7 +19,7 @@ def convert_msg_to_dict(m):
 
 class WSClient(TornadoWebSocketClient):
     def opened(self):
-        msg = gen_msg()
+        msg = subscribe()
         self.send(msg)
 
     def received_message(self, m):
@@ -32,8 +32,12 @@ class WSClient(TornadoWebSocketClient):
     def closed(self, code, reason=None):
         ioloop.IOLoop.instance().stop()
 
-WS_SERVER='ws://node6.getcloudbrain.com:31415/rt-stream/websocket'
-ws = WSClient(WS_SERVER, protocols=['http-only', 'chat', 'websocket'])
-ws.connect()
+def start():
+    WS_SERVER='ws://node6.getcloudbrain.com:31415/rt-stream/websocket'
+    ws = WSClient(WS_SERVER, protocols=['http-only', 'chat', 'websocket'])
+    ws.connect()
+    
+    ioloop.IOLoop.instance().start()
 
-ioloop.IOLoop.instance().start()
+if __name__ == "__main__":
+    start()

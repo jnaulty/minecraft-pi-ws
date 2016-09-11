@@ -58,7 +58,7 @@ def plant_device():
   # Place TNT block
   mc.setBlock(x,y,z,block.TNT)
 
-  return [x,y,z,rand.randint(80,180)]
+  return [x,y,z,rand.randint(100,180)]
 
 def nearest_device():
   # Find distance to nearest device
