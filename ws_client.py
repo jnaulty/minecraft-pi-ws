@@ -2,6 +2,7 @@
 from ws4py.client.tornadoclient import TornadoWebSocketClient
 from tornado import ioloop
 import json
+import ast
 
 def gen_msg():
     msg = {'type': 'subscription'}
@@ -11,10 +12,10 @@ def gen_msg():
     json_msg = json.dumps(msg)
     return json_msg
 
-def func_print(m):
+def convert_msg_to_dict(m):
     msg = m.data.decode("utf-8")
-    print type(msg)
-#    print ast.literal_eval(msg)
+    msg_dict = ast.literal_eval(msg)
+    return msg_dict
 
 class WSClient(TornadoWebSocketClient):
     def opened(self):
@@ -23,7 +24,8 @@ class WSClient(TornadoWebSocketClient):
 
     def received_message(self, m):
         #print m
-	func_print(m)
+        msg = convert_msg_to_dict(m)
+        print msg
         if len(m) == 175:
             self.close(reason='Bye bye')
 
