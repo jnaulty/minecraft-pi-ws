@@ -11,6 +11,10 @@ def gen_msg():
     json_msg = json.dumps(msg)
     return json_msg
 
+def func_print(m):
+    msg = m.data.decode("utf-8")
+    print type(msg)
+#    print ast.literal_eval(msg)
 
 class WSClient(TornadoWebSocketClient):
     def opened(self):
@@ -18,7 +22,8 @@ class WSClient(TornadoWebSocketClient):
         self.send(msg)
 
     def received_message(self, m):
-        print m
+        #print m
+	func_print(m)
         if len(m) == 175:
             self.close(reason='Bye bye')
 
